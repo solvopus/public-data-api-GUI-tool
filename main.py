@@ -28,7 +28,7 @@ def fileOpen():
 def getDataFromAPI(dongList):
     try:
         URL = 'http://apis.data.go.kr/B553501/flChimWlService/getFlChimWlInfo'
-        apiKey = 'iZmGj4rrQPgJXyYi4UUocBUYpJ0%2BSxQ%2Bz8x0ztlDf%2B5CMglAc9hB6qY1RLfzVGR3HtvIhPfEl7FHyIi53%2FPeRg%3D%3D'
+        apiKey = ''
         decodeKey = urllib.parse.unquote(apiKey)
         pageNumber = 1
         numberOfRows = 100
