@@ -28,14 +28,16 @@ def fileOpen():
 def getDataFromAPI(dongList):
     try:
         URL = 'http://apis.data.go.kr/B553501/flChimWlService/getFlChimWlInfo'
-        apiKey = ''
+        apiKey = 'iZmGj4rrQPgJXyYi4UUocBUYpJ0%2BSxQ%2Bz8x0ztlDf%2B5CMglAc9hB6qY1RLfzVGR3HtvIhPfEl7FHyIi53%2FPeRg%3D%3D'
         decodeKey = urllib.parse.unquote(apiKey)
         pageNumber = 1
-        numberOfRows = 100
+        numberOfRows = 50
         adm_cd_List = [dong for dong in dongList]
+        
         
         for admCD in adm_cd_List:
             parameters = {'serviceKey': decodeKey, 'pageNo': pageNumber, 'numOfRows': numberOfRows, 'adm_cd': admCD}
+            print(admCD)
             
             try:
                 response = requests.get(URL, params = parameters)
@@ -46,14 +48,13 @@ def getDataFromAPI(dongList):
             
             finally:
                 if response.json()['resultMsg'] != 'NODATA_ERROR':
-                    print(type(response.json()))
                     print(response.json())
-                    
                     responseDictList = dict(response.json())
+                
             
 
     except:
-        print("에러 발생")
+        print("API 에러 발생")
 
     finally:
         return responseDictList
@@ -71,7 +72,39 @@ def writeData(responseDictList):
         for response in responseDictList:
             responseJson = json.dumps(response)
             json.dump(responseJson, fileWriter)
+        
+        fileWriter.close()
             
+
+
+def main():
+    try:
+        dongList = fileOpen()
+        responseDictList = getDataFromAPI(dongList)
+        writeData(responseDictList)
+        
+
+    finally:
+        return
+        
+    
+
+if __name__ == "__main__":
+    main()
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
 # def getDataFromAPI_test(dongList):
 #     try:
@@ -91,18 +124,3 @@ def writeData(responseDictList):
 
 #     finally:
 #         return response
-
-def main():
-    try:
-        dongList = fileOpen()
-        responseDictList = getDataFromAPI(dongList)
-        writeData(responseDictList)
-        
-
-    finally:
-        return
-        
-    
-
-if __name__ == "__main__":
-    main()
